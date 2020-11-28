@@ -1,0 +1,29 @@
+[
+    {
+        "model": "raterapi.gamereview",
+        "pk": 1,
+        "fields": {
+            "review": "This game is fine, I guess :(",
+            "game": 1,
+            "player": 1
+        }
+    },
+    {
+        "model": "raterapi.gamereview",
+        "pk": 2,
+        "fields": {
+            "review": "This totally sucked butts, but it kept me occupied so....",
+            "game": 2,
+            "player": 2
+        }
+    },
+    {
+        "model": "raterapi.gamereview",
+        "pk": 3,
+        "fields": {
+            "review": "I don't know what I expected, but it blew those expectations out of the water! A modern Classic!",
+            "game": 3,
+            "player": 3
+        }
+    }
+]
