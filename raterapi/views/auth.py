@@ -1,9 +1,9 @@
 import json
-from django.http import HTTPResponse
-from django.contrib.auth import auth, login, authenticate
+from django.http import HttpResponse
+from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
-from django.views.decorators.csrf import csrf, csrf_exempt
+from django.views.decorators.csrf import csrf_exempt
 from raterapi.models import Player
 
 @csrf_exempt
@@ -18,17 +18,17 @@ def login_user(request):
         if authenticated_user is not None:
             token = Token.objects.get(user=authenticated_user)
             data = json.dumps({"valid": True, "token": token.key})
-            return HTTPResponse(data, content_type="application/json")
+            return HttpResponse(data, content_type="application/json")
 
         else:
             data = json.dumps({"valid": False})
-            return HTTPResponse(data, content_type="application/json")
+            return HttpResponse(data, content_type="application/json")
 
 @csrf_exempt
 def register_user(request):
     req_body = json.loads(request.body.decode())
 
-    new_user = User.objects.creat_user(
+    new_user = User.objects.create_user(
         username = req_body['username'],
         email = req_body['email'],
         password = req_body['password'],
@@ -36,11 +36,11 @@ def register_user(request):
         last_name = req_body['last_name']
     )
 
-    player = Player.objects.creat(user= new_user)
+    player = Player.objects.create(user= new_user)
 
     player.save()
 
     token = Token.objects.create(user=new_user)
 
     data = json.dumps({"token": token.key})
-    return HTTPResponse(data, content_type="application/json")
+    return HttpResponse(data, content_type="application/json")
