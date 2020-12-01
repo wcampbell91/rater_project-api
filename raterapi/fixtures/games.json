@@ -1,0 +1,39 @@
+
+[
+    {
+        "model": "raterapi.game",
+        "pk": 1,
+        "fields": {
+            "title": "Rummy",
+            "designer": "Cards Galore!",
+            "description": "a 2-4 player card game for the ages",
+            "year_released": 1909,
+            "num_players": 4,
+            "game_image": ""
+        }
+    },
+    {
+        "model": "raterapi.game",
+        "pk": 2,
+        "fields": {
+            "title": "The Elder Scrolls Oblivion",
+            "designer": "Bethesda Softworks",
+            "description": "A massive open world RPG for fans of D&D",
+            "year_released":1994,
+            "num_players": 1,
+            "game_image": ""
+        }
+    },
+    {
+        "model": "raterapi.game",
+        "pk": 3,
+        "fields": {
+            "title": "Tomb Raider",
+            "designer": "Ubisoft",
+            "description": "An adventure game starring Lara Croft",
+            "year_released": 1996,
+            "num_players": 4,
+            "game_image": ""
+        }
+    }
+]
