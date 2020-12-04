@@ -9,6 +9,7 @@ from rest_framework import status
 from raterapi.models import Game, Category, Player
 
 class GamesViewSet(ViewSet):
+    """Get Games"""
     def list(self, request):
         games = Game.objects.all()
 
@@ -39,6 +40,5 @@ class GameSerializer(serializers.HyperlinkedModelSerializer):
             view_name='game',
             lookup_field='id'
         )
-        fields = ('id', 'url', 'title', 'designer', 'description', 'year_released',
-        'num_players', 'game_image')
+        fields = ('id', 'url', 'title', 'description', 'designer', 'year_released', 'num_players', 'game_image')
         depth = 1

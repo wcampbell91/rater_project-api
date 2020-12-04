@@ -9,4 +9,3 @@ class Game(models.Model):
     year_released = models.IntegerField()
     num_players = models.IntegerField()
     game_image = models.ImageField(verbose_name='game_image', name='game_image', width_field='300',height_field='300', default="")
-# REMIGRATE!
