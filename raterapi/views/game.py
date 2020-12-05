@@ -9,12 +9,16 @@ from rest_framework import status
 from raterapi.models import Game, Category, Player
 
 class GamesViewSet(ViewSet):
-    """Get Games"""
-    def list(self, request):
-        games = Game.objects.all()
 
-        serializer = GameSerializer(games, many=True, context={'request': request})
-        return Response(serializer.data)
+
+    def retrieve(self, request, pk=None):
+        try:
+            game = Game.objects.get(pk=pk)
+            serializer = GameSerializer(game, context={"request": request})
+            return Response(serializer.data)
+        except Exception as ex:
+            return HttpResponseServerError(ex)
+
 
     def create(self, request):
         game = Game()
@@ -25,6 +29,9 @@ class GamesViewSet(ViewSet):
         game.num_players = request.data["num_players"]
         game.game_image = request.data["game_image"]
 
+        category = Category.objects.get(pk=request.data['categoryId'])
+        game.category = category
+
         try:
             game.save()
             serializer = GameSerializer(game, context={'request': request})
@@ -33,6 +40,16 @@ class GamesViewSet(ViewSet):
         except ValidationError as ex:
             return Response({"reason": ex.message}, status=status.HTTP_400_BAD_REQUEST)
 
+
+    def list(self, request):
+        games = Game.objects.all()
+
+        category = self.request.query_params.get('category', None)
+        if category is not None:
+            games = games.filter(category__id=category)
+
+        serializer = GameSerializer(games, many=True, context={'request': request})
+        return Response(serializer.data)
 class GameSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Game
@@ -40,5 +57,5 @@ class GameSerializer(serializers.HyperlinkedModelSerializer):
             view_name='game',
             lookup_field='id'
         )
-        fields = ('id', 'url', 'title', 'description', 'designer', 'year_released', 'num_players', 'game_image')
+        fields = ('id', 'url', 'title', 'description', 'designer', 'year_released', 'num_players', 'game_image', 'category')
         depth = 1

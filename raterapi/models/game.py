@@ -8,4 +8,6 @@ class Game(models.Model):
     description = models.CharField(max_length=160)
     year_released = models.IntegerField()
     num_players = models.IntegerField()
-    game_image = models.ImageField(verbose_name='game_image', name='game_image', width_field='300',height_field='300', default="")
+    game_image = models.ImageField(name='game_image', default="")
+    category = models.ForeignKey("Category", on_delete=CASCADE, related_name="categories",
+    related_query_name="category", default=1)
