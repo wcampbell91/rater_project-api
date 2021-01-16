@@ -6,7 +6,7 @@ from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers
 from rest_framework import status
-from raterapi.models import Game, Category, Player
+from raterapi.models import Game, Category, Player, GameReview
 
 class GamesViewSet(ViewSet):
 
@@ -14,6 +14,8 @@ class GamesViewSet(ViewSet):
     def retrieve(self, request, pk=None):
         try:
             game = Game.objects.get(pk=pk)
+            reviews = game.reviews.all()
+            game.reviews.set(reviews)
             serializer = GameSerializer(game, context={"request": request})
             return Response(serializer.data)
         except Exception as ex:
@@ -43,6 +45,7 @@ class GamesViewSet(ViewSet):
 
     def list(self, request):
         games = Game.objects.all()
+
 
         category = self.request.query_params.get('category', None)
         if category is not None:

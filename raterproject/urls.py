@@ -1,11 +1,12 @@
 from django.conf.urls import include
 from django.urls import path
-from raterapi.views import GamesViewSet, CategoriesViewSet, register_user, login_user
+from raterapi.views import GamesViewSet, CategoriesViewSet, GameReviewViewSet, register_user, login_user
 from rest_framework import routers
 
 router = routers.DefaultRouter(trailing_slash=False)
 router.register(r'games', GamesViewSet, 'game')
 router.register(r'categories', CategoriesViewSet, 'category')
+router.register(r'reviews', GameReviewViewSet, 'review')
 
 
 urlpatterns = [
