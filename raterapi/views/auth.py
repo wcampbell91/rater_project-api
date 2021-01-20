@@ -17,7 +17,8 @@ def login_user(request):
 
         if authenticated_user is not None:
             token = Token.objects.get(user=authenticated_user)
-            data = json.dumps({"valid": True, "token": token.key})
+            currentUser = authenticated_user
+            data = json.dumps({"valid": True, "token": token.key, "user_id": currentUser.id})
             return HttpResponse(data, content_type="application/json")
 
         else:

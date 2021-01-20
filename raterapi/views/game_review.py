@@ -9,8 +9,10 @@ class GameReviewSerializer(serializers.ModelSerializer):
     class Meta: 
         model = GameReview
         fields = ['id', 'review', 'game', 'player']
+        depth = 2
 
 
 class GameReviewViewSet(ModelViewSet):
     queryset = GameReview.objects.all()
+    queryset.query.clear_limits()
     serializer_class = GameReviewSerializer
