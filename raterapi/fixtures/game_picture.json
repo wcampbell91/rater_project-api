@@ -1,0 +1,10 @@
+[
+  {
+    "model": "raterapi.game_picture",
+    "pk": 1,
+    "fields": {
+      "game": 1,
+      "action_pic": "blah blah"
+    }
+  }
+]
