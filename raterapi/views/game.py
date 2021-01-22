@@ -48,6 +48,7 @@ class GamesViewSet(ViewSet):
         games = Game.objects.all()
 
         search_text = self.request.query_params.get('q', None)
+        order_text = self.request.query_params.get('orderby', None)
         category = self.request.query_params.get('category', None)
         if category is not None:
             games = games.filter(category__id=category)
@@ -56,6 +57,11 @@ class GamesViewSet(ViewSet):
             Q(title__contains=search_text) | 
             Q(description__contains=search_text) |
             Q(designer__contains=search_text))
+        if order_text is not None: 
+            if order_text == 'year_released':
+                games = games.order_by('year_released')
+            if order_text == 'designer':
+                games = games.order_by('designer')
 
         serializer = GameSerializer(games, many=True, context={'request': request})
         return Response(serializer.data)
