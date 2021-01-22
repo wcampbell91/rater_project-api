@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from rest_framework import serializers
 from rest_framework import status
 from raterapi.models import Game, Category, Player, GameReview
+from django.db.models import Q 
 
 class GamesViewSet(ViewSet):
 
@@ -46,10 +47,15 @@ class GamesViewSet(ViewSet):
     def list(self, request):
         games = Game.objects.all()
 
-
+        search_text = self.request.query_params.get('q', None)
         category = self.request.query_params.get('category', None)
         if category is not None:
             games = games.filter(category__id=category)
+        if search_text is not None:
+            games = games.filter(
+            Q(title__contains=search_text) | 
+            Q(description__contains=search_text) |
+            Q(designer__contains=search_text))
 
         serializer = GameSerializer(games, many=True, context={'request': request})
         return Response(serializer.data)
