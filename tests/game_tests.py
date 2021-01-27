@@ -1,7 +1,7 @@
 import json
 from rest_framework import status
 from rest_framework.test import APITestCase
-from raterapi.models import Category
+from raterapi.models import Category, Game
 
 class GameTests(APITestCase):
     def setUp(self):
@@ -48,3 +48,57 @@ class GameTests(APITestCase):
         self.assertEqual(json_response['year_released'], 2021)
         self.assertEqual(json_response['num_players'], 1)
         self.assertEqual(json_response['game_image'], None)
+
+    def test_get_game(self):
+        game = Game()
+        game.categoryId = 1
+        game.title = 'farts'
+        game.designer = 'butts'
+        game.description = 'stinky'
+        game.num_players = 1
+        game.year_released = 2021
+        game.game_image = ''
+        game.save()
+
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token)
+
+        response = self.client.get(f"/games/{game.id}")
+        json_response = json.loads(response.content)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        self.assertEqual(json_response['title'], 'farts')
+        self.assertEqual(json_response['designer'], 'butts')
+        self.assertEqual(json_response['description'], 'stinky')
+        self.assertEqual(json_response['year_released'], 2021)
+        self.assertEqual(json_response['num_players'], 1)
+        self.assertEqual(json_response['game_image'], None)
+
+    def test_change_game(self):
+        game = Game()
+        game.categoryId = 1
+        game.title = 'farts'
+        game.designer = 'butts'
+        game.description = 'stinky'
+        game.num_players = 1
+        game.year_released = 2021
+        game.game_image = ''
+        game.save()
+
+        data = {
+            "categoryId": 1,
+            "title": 'poops',
+            'designer': 'butts',
+            'description': 'roses',
+            'num_players': 1,
+            'year_released': 2021,
+            'game_image': ''
+        }
+
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token)
+        response = self.client.put(f"/games/{game.id}", data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+        response = self.client.get(f'/games/{game.id}')
+        json_response = json.loads(response.content)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
