@@ -65,6 +65,20 @@ class GamesViewSet(ViewSet):
 
         serializer = GameSerializer(games, many=True, context={'request': request})
         return Response(serializer.data)
+
+    def update(self, request, pk=None):
+        game = Game.objects.get(pk=pk)
+        game.title = request.data['title']
+        game.designer = request.data['designer']
+        game.description = request.data['description']
+        game.num_players = request.data['num_players']
+        game.year_released = request.data['year_released']
+        game.game_image = request.data['game_image']
+
+        category = Category.objects.get(pk=request.data['categoryId'])
+        game.category = category
+        game.save()
+        return Response({}, status = status.HTTP_204_NO_CONTENT)
 class GameSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Game
