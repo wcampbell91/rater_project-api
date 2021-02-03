@@ -102,3 +102,38 @@ class GameTests(APITestCase):
         response = self.client.get(f'/games/{game.id}')
         json_response = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        self.assertEqual(json_response['title'], 'poops')
+        self.assertEqual(json_response['designer'], 'butts')
+        self.assertEqual(json_response['description'], 'roses')
+        self.assertEqual(json_response['num_players'], 1)
+        self.assertEqual(json_response['year_released'], 2021)
+        self.assertEqual(json_response['game_image'], None)
+
+    def test_delete_game(self):
+        game = Game()
+        game.categoryId = 1
+        game.title = 'farts'
+        game.designer = 'butts'
+        game.description = 'stinky'
+        game.num_players = 1
+        game.year_released = 2021
+        game.game_image = ''
+        game.save()
+
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token)
+        response = self.client.delete(f"/games/{game.id}")
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+        response = self.client.get(f"/games/{game.id}")
+        self.assertEqual(response.status_code, status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    def test_get_single_game(self):
+        game = Game.objects.all()
+
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token)
+
+        response = self.client.get("/games")
+        json_response = json.loads(response.content)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
