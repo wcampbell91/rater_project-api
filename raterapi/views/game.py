@@ -79,6 +79,18 @@ class GamesViewSet(ViewSet):
         game.category = category
         game.save()
         return Response({}, status = status.HTTP_204_NO_CONTENT)
+
+    def destroy(self, request, pk=None):
+        try:
+            game = Game.objects.get(pk=pk)
+            game.delete()
+
+            return Response({}, status=status.HTTP_204_NO_CONTENT)
+        except Game.DoesNotExist as ex:
+            return Response({'message': ex.args[0]}, status = status.HTTP_404_NOT_FOUND)
+        except Exception as ex:
+            return Response({'message': ex.args[0]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 class GameSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Game

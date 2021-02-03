@@ -9,7 +9,7 @@ class GameReviewSerializer(serializers.ModelSerializer):
     class Meta: 
         model = GameReview
         fields = ['id', 'review', 'game', 'player']
-        depth = 2
+        depth = 0
 
 
 class GameReviewViewSet(ModelViewSet):

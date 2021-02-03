@@ -1,3 +1,11 @@
 {
-  "python.pythonPath": "/Users/billy/.local/share/virtualenvs/raterproject-DNBJFOLD/bin/python"
+  "python.pythonPath": "/Users/billy/.local/share/virtualenvs/raterproject-DNBJFOLD/bin/python",
+  "sqltools.connections": [
+    {
+      "previewLimit": 50,
+      "driver": "SQLite",
+      "name": "raterapi",
+      "database": "${workspaceFolder:raterproject}/db.sqlite3"
+    }
+  ]
 }

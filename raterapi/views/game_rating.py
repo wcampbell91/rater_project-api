@@ -9,6 +9,7 @@ class GameRatingSerializer(serializers.ModelSerializer):
     class Meta: 
         model = GameRating
         fields = ['id', 'rating', 'game', 'player']
+        depth = 0
 
 
 class GameRatingViewSet(ModelViewSet):
