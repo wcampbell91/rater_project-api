@@ -5,3 +5,4 @@ from .category.gamespercategory import GamesPerCategory
 from .players.morethan5 import more_than_5
 from .reviews.mostreviews import most_reviews
 from .images.no_images import games_with_no_images
+from .reviews.top_3 import top_3_reviewers
