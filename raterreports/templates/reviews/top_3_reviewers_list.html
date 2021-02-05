@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Rater Reports</title>
+    </head>
+    <body>
+        <h1>Game Reviews</h1>
+
+        {% for reviewer in top_3_reviewers %}
+            <h2>{{reviewer.name}} - {{reviewer.review}}</h2>
+        {% endfor %}
+    </body>
+</html>
